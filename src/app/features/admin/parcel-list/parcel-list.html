@@ -1,0 +1,123 @@
+<section class="space-y-6">
+  <div class="flex flex-col justify-between gap-4 md:flex-row md:items-center">
+    <div>
+      <p class="text-sm font-black uppercase tracking-[0.25em] text-red-600">Parcel Management</p>
+
+      <h1 class="mt-2 text-4xl font-black tracking-tight text-slate-950">Parcels</h1>
+
+      <p class="mt-2 text-slate-500">Search, filter, view, and manage parcel records.</p>
+    </div>
+
+    <a
+      routerLink="/admin/parcels/add"
+      class="rounded-2xl bg-red-600 px-6 py-4 text-sm font-black text-white shadow-lg shadow-red-200 transition hover:bg-red-700"
+    >
+      + Add Parcel
+    </a>
+  </div>
+
+  <div class="rounded-4xl border border-slate-200 bg-white p-5 shadow-sm">
+    <div class="grid gap-4 md:grid-cols-[1fr_240px]">
+      <input
+        [(ngModel)]="searchTerm"
+        class="h-14 rounded-2xl border border-slate-200 bg-slate-50 px-5 font-semibold outline-none transition focus:border-red-400 focus:bg-white"
+        placeholder="Search tracking no, sender, receiver, location..."
+      />
+
+      <select
+        [(ngModel)]="statusFilter"
+        class="h-14 rounded-2xl border border-slate-200 bg-slate-50 px-5 font-semibold outline-none transition focus:border-red-400 focus:bg-white"
+      >
+        @for (status of statuses; track status.value) {
+          <option [value]="status.value">
+            {{ status.label }}
+          </option>
+        }
+      </select>
+    </div>
+  </div>
+
+  @if (isLoading) {
+    <div
+      class="rounded-2xl border border-slate-200 bg-white p-6 text-center font-bold text-slate-500"
+    >
+      Loading parcels from Express API...
+    </div>
+  }
+
+  @if (errorMessage) {
+    <div class="rounded-2xl border border-red-200 bg-red-50 p-6 text-center font-bold text-red-700">
+      {{ errorMessage }}
+    </div>
+  }
+
+  @if (!isLoading && !errorMessage) {
+    <div class="overflow-hidden rounded-4xl border border-slate-200 bg-white shadow-sm">
+      <table class="w-full text-left text-sm">
+        <thead class="bg-slate-50 text-xs uppercase tracking-wider text-slate-500">
+          <tr>
+            <th class="px-5 py-4">Tracking No.</th>
+            <th class="px-5 py-4">Sender</th>
+            <th class="px-5 py-4">Receiver</th>
+            <th class="px-5 py-4">Latest Location</th>
+            <th class="px-5 py-4">Status</th>
+            <th class="px-5 py-4">Fee</th>
+            <th class="px-5 py-4">Action</th>
+          </tr>
+        </thead>
+
+        <tbody class="divide-y divide-slate-100">
+          @for (parcel of filteredParcels; track parcel.parcelId) {
+            <tr class="bg-white transition hover:bg-slate-50">
+              <td class="px-5 py-4 font-black text-slate-950">
+                {{ parcel.trackingNumber }}
+              </td>
+
+              <td class="px-5 py-4 font-semibold text-slate-600">
+                {{ parcel.senderName }}
+              </td>
+
+              <td class="px-5 py-4 font-semibold text-slate-600">
+                {{ parcel.receiverName }}
+              </td>
+
+              <td class="px-5 py-4 font-semibold text-slate-600">
+                {{ parcel.latestLocation }}
+              </td>
+
+              <td class="px-5 py-4">
+                <span
+                  class="rounded-full px-3 py-1 text-xs font-black"
+                  [class]="getStatusStyle(parcel.currentStatus)"
+                >
+                  {{ getStatusLabel(parcel.currentStatus) }}
+                </span>
+              </td>
+
+              <td class="px-5 py-4 font-black text-red-600">
+                RM {{ parcel.deliveryFee.toFixed(2) }}
+              </td>
+
+              <td class="px-5 py-4">
+                <a
+                  [routerLink]="['/admin/parcels', parcel.parcelId]"
+                  class="font-black text-red-600 hover:text-red-700"
+                >
+                  View
+                </a>
+              </td>
+            </tr>
+          }
+
+          @if (filteredParcels.length === 0) {
+            <tr>
+              <td colspan="7" class="px-5 py-10 text-center font-bold text-slate-500">
+                No parcels found.
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</section>

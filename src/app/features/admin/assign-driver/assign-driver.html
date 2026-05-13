@@ -1,0 +1,97 @@
+<section class="space-y-6">
+  <div>
+    <p class="text-sm font-black uppercase tracking-[0.25em] text-red-600">Driver Assignment</p>
+
+    <h1 class="mt-2 text-4xl font-black tracking-tight text-slate-950">Assign Parcel to Driver</h1>
+
+    <p class="mt-2 text-slate-500">
+      Assign parcels to available drivers and prepare them for delivery.
+    </p>
+  </div>
+
+  <div class="grid gap-6 xl:grid-cols-[1fr_380px]">
+    <div class="rounded-4xl border border-slate-200 bg-white p-6 shadow-sm">
+      <h2 class="text-2xl font-black text-slate-950">Assignment Form</h2>
+
+      <div class="mt-6 space-y-5">
+        <div>
+          <label class="text-sm font-bold text-slate-700">Select Parcel</label>
+
+          <select
+            [(ngModel)]="selectedParcelId"
+            class="mt-2 h-14 w-full rounded-2xl border border-slate-200 bg-slate-50 px-5 font-semibold outline-none focus:border-red-400 focus:bg-white"
+          >
+            <option value="">Choose parcel</option>
+
+            @for (parcel of parcels; track parcel.parcelId) {
+              <option [value]="parcel.parcelId">
+                {{ parcel.trackingNumber }} - {{ parcel.receiverName }} -
+                {{ parcel.latestLocation }}
+              </option>
+            }
+          </select>
+        </div>
+
+        <div>
+          <label class="text-sm font-bold text-slate-700">Select Driver</label>
+
+          <select
+            [(ngModel)]="selectedDriverId"
+            class="mt-2 h-14 w-full rounded-2xl border border-slate-200 bg-slate-50 px-5 font-semibold outline-none focus:border-red-400 focus:bg-white"
+          >
+            <option value="">Choose driver</option>
+
+            @for (driver of drivers; track driver.driverId) {
+              <option [value]="driver.driverId">
+                {{ driver.fullName }} - {{ driver.branchName }} - {{ driver.availabilityStatus }}
+              </option>
+            }
+          </select>
+        </div>
+
+        <button
+          type="button"
+          (click)="assignDriver()"
+          class="h-14 w-full rounded-2xl bg-red-600 font-black text-white shadow-lg shadow-red-200 transition hover:bg-red-700"
+        >
+          Assign Driver
+        </button>
+
+        @if (successMessage) {
+          <div
+            class="rounded-2xl border border-emerald-200 bg-emerald-50 p-5 font-bold text-emerald-700"
+          >
+            {{ successMessage }}
+          </div>
+        }
+      </div>
+    </div>
+
+    <aside class="rounded-4xl border border-slate-200 bg-slate-950 p-6 text-white shadow-sm">
+      <h2 class="text-2xl font-black">Assignment Rules</h2>
+
+      <div class="mt-6 space-y-5 text-sm text-slate-300">
+        <div class="rounded-2xl bg-white/10 p-5">
+          <p class="font-black text-white">1. Branch Match</p>
+          <p class="mt-2 leading-6">
+            Ideally, parcels should be assigned to drivers from the destination branch.
+          </p>
+        </div>
+
+        <div class="rounded-2xl bg-white/10 p-5">
+          <p class="font-black text-white">2. Driver Workload</p>
+          <p class="mt-2 leading-6">
+            Admin should check assigned parcel count before assigning more deliveries.
+          </p>
+        </div>
+
+        <div class="rounded-2xl bg-white/10 p-5">
+          <p class="font-black text-white">3. Delivery Status</p>
+          <p class="mt-2 leading-6">
+            After assignment, parcel status should become Assigned to Driver or Out for Delivery.
+          </p>
+        </div>
+      </div>
+    </aside>
+  </div>
+</section>

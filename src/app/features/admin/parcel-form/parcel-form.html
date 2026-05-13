@@ -1,0 +1,283 @@
+<section class="space-y-6">
+  <div>
+    <a routerLink="/admin/parcels" class="text-sm font-black text-red-600"> ← Back to Parcels </a>
+
+    <h1 class="mt-3 text-4xl font-black tracking-tight text-slate-950">Register New Parcel</h1>
+
+    <p class="mt-2 text-slate-500">
+      Staff or admin can register a new parcel and generate a tracking record.
+    </p>
+  </div>
+
+  <div class="grid gap-6 xl:grid-cols-[1fr_360px]">
+    <form class="rounded-4xl border border-slate-200 bg-white p-6 shadow-sm">
+      <h2 class="text-2xl font-black text-slate-950">Shipment Information</h2>
+
+      <div class="mt-6 grid gap-5 md:grid-cols-2">
+        <div>
+          <label class="text-sm font-bold text-slate-700">Sender Name</label>
+          <input
+            [(ngModel)]="senderName"
+            name="senderName"
+            class="mt-2 h-14 w-full rounded-2xl border border-slate-200 bg-slate-50 px-5 font-semibold outline-none focus:border-red-400 focus:bg-white"
+            placeholder="Sender name"
+          />
+        </div>
+
+        <div>
+          <label class="text-sm font-bold text-slate-700">Sender Phone</label>
+          <input
+            [(ngModel)]="senderPhone"
+            name="senderPhone"
+            class="mt-2 h-14 w-full rounded-2xl border border-slate-200 bg-slate-50 px-5 font-semibold outline-none focus:border-red-400 focus:bg-white"
+            placeholder="Sender phone"
+          />
+        </div>
+
+        <div class="md:col-span-2">
+          <label class="text-sm font-bold text-slate-700">Sender Address</label>
+          <textarea
+            [(ngModel)]="senderAddress"
+            name="senderAddress"
+            rows="3"
+            class="mt-2 w-full rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4 font-semibold outline-none focus:border-red-400 focus:bg-white"
+            placeholder="Sender address"
+          ></textarea>
+        </div>
+
+        <div>
+          <label class="text-sm font-bold text-slate-700">Receiver Name</label>
+          <input
+            [(ngModel)]="receiverName"
+            name="receiverName"
+            class="mt-2 h-14 w-full rounded-2xl border border-slate-200 bg-slate-50 px-5 font-semibold outline-none focus:border-red-400 focus:bg-white"
+            placeholder="Receiver name"
+          />
+        </div>
+
+        <div>
+          <label class="text-sm font-bold text-slate-700">Receiver Phone</label>
+          <input
+            [(ngModel)]="receiverPhone"
+            name="receiverPhone"
+            class="mt-2 h-14 w-full rounded-2xl border border-slate-200 bg-slate-50 px-5 font-semibold outline-none focus:border-red-400 focus:bg-white"
+            placeholder="Receiver phone"
+          />
+        </div>
+
+        <div class="md:col-span-2">
+          <label class="text-sm font-bold text-slate-700">Receiver Address</label>
+          <textarea
+            [(ngModel)]="receiverAddress"
+            name="receiverAddress"
+            rows="3"
+            class="mt-2 w-full rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4 font-semibold outline-none focus:border-red-400 focus:bg-white"
+            placeholder="Receiver address"
+          ></textarea>
+        </div>
+      </div>
+
+      <h2 class="mt-10 text-2xl font-black text-slate-950">Route Information</h2>
+
+      <div class="mt-6 grid gap-5 md:grid-cols-2">
+        <div>
+          <label class="text-sm font-bold text-slate-700">Origin Branch</label>
+          <select
+            [(ngModel)]="originBranchId"
+            name="originBranchId"
+            class="mt-2 h-14 w-full rounded-2xl border border-slate-200 bg-slate-50 px-5 font-semibold outline-none focus:border-red-400 focus:bg-white"
+          >
+            <option [ngValue]="1">PNG-HUB-01 - Penang Sorting Hub</option>
+            <option [ngValue]="2">PNG-BR-02 - Georgetown Branch</option>
+            <option [ngValue]="3">KL-HUB-01 - Kuala Lumpur Main Hub</option>
+            <option [ngValue]="4">JHR-HUB-01 - Johor Bahru Hub</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="text-sm font-bold text-slate-700">Destination Branch</label>
+          <select
+            [(ngModel)]="destinationBranchId"
+            name="destinationBranchId"
+            class="mt-2 h-14 w-full rounded-2xl border border-slate-200 bg-slate-50 px-5 font-semibold outline-none focus:border-red-400 focus:bg-white"
+          >
+            <option [ngValue]="1">PNG-HUB-01 - Penang Sorting Hub</option>
+            <option [ngValue]="2">PNG-BR-02 - Georgetown Branch</option>
+            <option [ngValue]="3">KL-HUB-01 - Kuala Lumpur Main Hub</option>
+            <option [ngValue]="4">JHR-HUB-01 - Johor Bahru Hub</option>
+          </select>
+        </div>
+      </div>
+
+      <h2 class="mt-10 text-2xl font-black text-slate-950">Parcel Details</h2>
+
+      <div class="mt-6 grid gap-5 md:grid-cols-2">
+        <div>
+          <label class="text-sm font-bold text-slate-700">Weight KG</label>
+          <input
+            type="number"
+            [(ngModel)]="parcelWeight"
+            name="parcelWeight"
+            min="0.1"
+            step="0.1"
+            class="mt-2 h-14 w-full rounded-2xl border border-slate-200 bg-slate-50 px-5 font-semibold outline-none focus:border-red-400 focus:bg-white"
+          />
+        </div>
+
+        <div>
+          <label class="text-sm font-bold text-slate-700">Parcel Size</label>
+          <select
+            [(ngModel)]="parcelSize"
+            name="parcelSize"
+            class="mt-2 h-14 w-full rounded-2xl border border-slate-200 bg-slate-50 px-5 font-semibold outline-none focus:border-red-400 focus:bg-white"
+          >
+            <option>Small</option>
+            <option>Medium</option>
+            <option>Large</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="text-sm font-bold text-slate-700">Category</label>
+          <select
+            [(ngModel)]="parcelCategory"
+            name="parcelCategory"
+            class="mt-2 h-14 w-full rounded-2xl border border-slate-200 bg-slate-50 px-5 font-semibold outline-none focus:border-red-400 focus:bg-white"
+          >
+            <option>Document</option>
+            <option>Electronics</option>
+            <option>Clothing</option>
+            <option>Home Appliance</option>
+            <option>Others</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="text-sm font-bold text-slate-700">Delivery Type</label>
+          <select
+            [(ngModel)]="deliveryType"
+            name="deliveryType"
+            class="mt-2 h-14 w-full rounded-2xl border border-slate-200 bg-slate-50 px-5 font-semibold outline-none focus:border-red-400 focus:bg-white"
+          >
+            <option>Standard Delivery</option>
+            <option>Express Delivery</option>
+            <option>Same-Day Delivery</option>
+          </select>
+        </div>
+      </div>
+
+      @if (errorMessage) {
+        <div class="mt-6 rounded-2xl border border-red-200 bg-red-50 p-5 font-bold text-red-700">
+          {{ errorMessage }}
+        </div>
+      }
+
+      <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+        <button
+          type="button"
+          (click)="registerParcel()"
+          [disabled]="isSubmitting"
+          class="h-14 rounded-2xl bg-red-600 px-8 font-black text-white shadow-lg shadow-red-200 transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-60"
+        >
+          {{ isSubmitting ? 'Registering...' : 'Register Parcel' }}
+        </button>
+
+        <a
+          routerLink="/admin/parcels"
+          class="flex h-14 items-center justify-center rounded-2xl border border-slate-200 px-8 font-black text-slate-700 transition hover:border-red-200 hover:text-red-600"
+        >
+          Cancel
+        </a>
+      </div>
+    </form>
+
+    <aside class="space-y-6">
+      <div class="rounded-4xl border border-slate-200 bg-slate-950 p-6 text-white shadow-sm">
+        <p class="text-sm font-bold text-slate-400">Estimated Delivery Fee</p>
+
+        <p class="mt-3 text-5xl font-black">RM {{ estimatedFee.toFixed(2) }}</p>
+
+        <div class="mt-6 space-y-3 rounded-2xl bg-white/10 p-5">
+          <div class="flex justify-between text-sm">
+            <span class="font-bold text-slate-400">Base Fee</span>
+            <span class="font-black text-white">RM {{ baseFee.toFixed(2) }}</span>
+          </div>
+
+          <div class="flex justify-between text-sm">
+            <span class="font-bold text-slate-400">Weight</span>
+            <span class="font-black text-white">{{ parcelWeight }} kg</span>
+          </div>
+
+          <div class="flex justify-between text-sm">
+            <span class="font-bold text-slate-400">Delivery Type</span>
+            <span class="font-black text-white">{{ deliveryType }}</span>
+          </div>
+        </div>
+
+        <p class="mt-4 text-sm leading-6 text-slate-400">
+          Fee is calculated using base fee, parcel weight, and delivery type.
+        </p>
+      </div>
+
+      <div class="rounded-4xl border border-slate-200 bg-white p-6 shadow-sm">
+        <h2 class="text-xl font-black text-slate-950">Tracking Number</h2>
+
+        <div class="mt-4 rounded-2xl bg-red-50 p-5">
+          <p class="text-sm font-bold text-slate-500">Auto-generated by Express API</p>
+          <p class="mt-2 text-2xl font-black text-red-600">PXL2026XXXXXX</p>
+        </div>
+
+        <p class="mt-4 text-sm leading-6 text-slate-500">
+          When the parcel is registered, Express will generate the real tracking number and save it
+          into MySQL.
+        </p>
+      </div>
+
+      <div class="rounded-4xl border border-slate-200 bg-white p-6 shadow-sm">
+        <h2 class="text-xl font-black text-slate-950">What happens next?</h2>
+
+        <div class="mt-5 space-y-4">
+          <div class="flex gap-3">
+            <div
+              class="flex h-8 w-8 items-center justify-center rounded-full bg-red-600 text-sm font-black text-white"
+            >
+              1
+            </div>
+            <div>
+              <p class="font-black text-slate-950">Parcel is created</p>
+              <p class="text-sm font-semibold text-slate-500">Status starts as Created.</p>
+            </div>
+          </div>
+
+          <div class="flex gap-3">
+            <div
+              class="flex h-8 w-8 items-center justify-center rounded-full bg-slate-950 text-sm font-black text-white"
+            >
+              2
+            </div>
+            <div>
+              <p class="font-black text-slate-950">Tracking event is added</p>
+              <p class="text-sm font-semibold text-slate-500">
+                The first timeline record is saved.
+              </p>
+            </div>
+          </div>
+
+          <div class="flex gap-3">
+            <div
+              class="flex h-8 w-8 items-center justify-center rounded-full bg-slate-950 text-sm font-black text-white"
+            >
+              3
+            </div>
+            <div>
+              <p class="font-black text-slate-950">Redirect to details</p>
+              <p class="text-sm font-semibold text-slate-500">
+                Admin can view and print the parcel label.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </div>
+</section>

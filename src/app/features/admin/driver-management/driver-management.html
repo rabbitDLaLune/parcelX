@@ -1,0 +1,86 @@
+<section class="space-y-6">
+  <div class="flex flex-col justify-between gap-4 md:flex-row md:items-center">
+    <div>
+      <p class="text-sm font-black uppercase tracking-[0.25em] text-red-600">Driver Management</p>
+
+      <h1 class="mt-2 text-4xl font-black tracking-tight text-slate-950">Drivers & Riders</h1>
+
+      <p class="mt-2 text-slate-500">
+        Manage driver availability, workload, vehicles, and branch assignment.
+      </p>
+    </div>
+
+    <button
+      class="rounded-2xl bg-red-600 px-6 py-4 text-sm font-black text-white shadow-lg shadow-red-200 transition hover:bg-red-700"
+    >
+      + Add Driver
+    </button>
+  </div>
+
+  <div class="overflow-hidden rounded-4xl border border-slate-200 bg-white shadow-sm">
+    <table class="w-full text-left text-sm">
+      <thead class="bg-slate-50 text-xs uppercase tracking-wider text-slate-500">
+        <tr>
+          <th class="px-5 py-4">Driver</th>
+          <th class="px-5 py-4">Branch</th>
+          <th class="px-5 py-4">Vehicle</th>
+          <th class="px-5 py-4">Status</th>
+          <th class="px-5 py-4">Assigned</th>
+          <th class="px-5 py-4">Today</th>
+          <th class="px-5 py-4">Action</th>
+        </tr>
+      </thead>
+
+      <tbody class="divide-y divide-slate-100">
+        @for (driver of drivers; track driver.driverId) {
+          <tr class="bg-white transition hover:bg-slate-50">
+            <td class="px-5 py-4">
+              <p class="font-black text-slate-950">{{ driver.fullName }}</p>
+              <p class="mt-1 text-xs font-semibold text-slate-500">
+                {{ driver.phone }}
+              </p>
+            </td>
+
+            <td class="px-5 py-4 font-semibold text-slate-600">
+              {{ driver.branchName }}
+            </td>
+
+            <td class="px-5 py-4">
+              <p class="font-black text-slate-950">{{ driver.vehicleType }}</p>
+              <p class="mt-1 text-xs font-semibold text-slate-500">
+                {{ driver.vehicleNumber }}
+              </p>
+            </td>
+
+            <td class="px-5 py-4">
+              <span
+                class="rounded-full px-3 py-1 text-xs font-black"
+                [class]="getStatusStyle(driver.availabilityStatus)"
+              >
+                {{ driver.availabilityStatus }}
+              </span>
+            </td>
+
+            <td class="px-5 py-4 font-black text-slate-950">
+              {{ driver.assignedParcelCount }}
+            </td>
+
+            <td class="px-5 py-4">
+              <p class="font-black text-emerald-600">{{ driver.completedToday }} completed</p>
+              <p class="mt-1 text-xs font-bold text-red-600">{{ driver.failedToday }} failed</p>
+            </td>
+
+            <td class="px-5 py-4">
+              <a
+                routerLink="/admin/assign-driver"
+                class="font-black text-red-600 hover:text-red-700"
+              >
+                Assign
+              </a>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</section>

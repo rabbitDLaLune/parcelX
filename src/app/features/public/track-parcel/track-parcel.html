@@ -1,0 +1,257 @@
+<section class="mx-auto max-w-6xl px-6 py-16">
+  <div class="text-center">
+    <p class="text-sm font-black uppercase tracking-[0.3em] text-red-600">ParcelX Tracking</p>
+
+    <h1 class="mt-4 text-4xl font-black tracking-tight text-slate-950 md:text-5xl">
+      Track Your Parcel Anytime
+    </h1>
+
+    <p class="mx-auto mt-4 max-w-2xl text-slate-600">
+      Enter your tracking number to view the latest parcel status, location, estimated delivery
+      date, and full shipment timeline.
+    </p>
+  </div>
+
+  <div
+    class="mx-auto mt-10 max-w-3xl rounded-4xl border border-slate-200 bg-white p-4 shadow-xl shadow-slate-200"
+  >
+    <div class="flex flex-col gap-3 sm:flex-row">
+      <input
+        [(ngModel)]="trackingNumber"
+        (keyup.enter)="searchParcel()"
+        class="min-h-14 flex-1 rounded-2xl border border-slate-200 bg-slate-50 px-5 font-semibold uppercase outline-none transition focus:border-red-400 focus:bg-white"
+        placeholder="Example: PXL202605120001"
+      />
+
+      <button
+        type="button"
+        (click)="searchParcel()"
+        class="rounded-2xl bg-red-600 px-8 py-4 font-black text-white shadow-lg shadow-red-200 transition hover:bg-red-700"
+      >
+        {{ isLoading ? 'Tracking...' : 'Track' }}
+      </button>
+    </div>
+
+    <div class="mt-4 rounded-2xl bg-slate-50 px-5 py-4 text-sm text-slate-600">
+      Try:
+      <button
+        type="button"
+        (click)="trackingNumber = 'PXL202605120001'; searchParcel()"
+        class="font-black text-red-600 hover:text-red-700"
+      >
+        PXL202605120001
+      </button>
+      ,
+      <button
+        type="button"
+        (click)="trackingNumber = 'PXL202605120002'; searchParcel()"
+        class="font-black text-red-600 hover:text-red-700"
+      >
+        PXL202605120002
+      </button>
+      ,
+      <button
+        type="button"
+        (click)="trackingNumber = 'PXL202605120003'; searchParcel()"
+        class="font-black text-red-600 hover:text-red-700"
+      >
+        PXL202605120003
+      </button>
+    </div>
+  </div>
+
+  @if (errorMessage) {
+    <div
+      class="mx-auto mt-8 max-w-3xl rounded-2xl border border-red-200 bg-red-50 p-5 text-center font-bold text-red-700"
+    >
+      {{ errorMessage }}
+    </div>
+  }
+
+  @if (parcel) {
+    <div class="mt-10 grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
+      <div class="rounded-4xl border border-slate-200 bg-white p-6 shadow-xl shadow-slate-200">
+        <div
+          class="flex flex-col justify-between gap-6 border-b border-slate-100 pb-6 md:flex-row md:items-center"
+        >
+          <div>
+            <p class="text-sm font-bold text-slate-500">Tracking Number</p>
+            <h2 class="mt-1 text-3xl font-black text-slate-950">
+              {{ parcel.trackingNumber }}
+            </h2>
+          </div>
+
+          <div
+            class="rounded-full px-5 py-3 text-sm font-black"
+            [class]="getStatusStyle(parcel.currentStatus)"
+          >
+            {{ getStatusLabel(parcel.currentStatus) }}
+          </div>
+        </div>
+
+        <div class="mt-6 grid gap-4 md:grid-cols-3">
+          <div class="rounded-2xl bg-slate-50 p-5">
+            <p class="text-sm font-bold text-slate-500">Estimated Delivery</p>
+            <p class="mt-2 text-lg font-black text-slate-950">
+              {{ parcel.estimatedDeliveryDate }}
+            </p>
+          </div>
+
+          <div class="rounded-2xl bg-slate-50 p-5">
+            <p class="text-sm font-bold text-slate-500">Latest Location</p>
+            <p class="mt-2 text-lg font-black text-slate-950">
+              {{ parcel.latestLocation }}
+            </p>
+          </div>
+
+          <div class="rounded-2xl bg-slate-50 p-5">
+            <p class="text-sm font-bold text-slate-500">Delivery Type</p>
+            <p class="mt-2 text-lg font-black text-slate-950">
+              {{ parcel.deliveryType }}
+            </p>
+          </div>
+        </div>
+
+        <div class="mt-8">
+          <div class="flex items-center justify-between">
+            <h3 class="text-xl font-black text-slate-950">Tracking Timeline</h3>
+            <p class="text-sm font-bold text-slate-400">
+              {{ parcel.trackingEvents.length }} updates
+            </p>
+          </div>
+
+          <div class="mt-6 space-y-6">
+            @for (event of parcel.trackingEvents.slice().reverse(); track event.eventId) {
+              <div class="flex gap-4">
+                <div class="flex flex-col items-center">
+                  <div
+                    class="h-5 w-5 rounded-full border-4 border-white shadow"
+                    [class]="
+                      event.eventId === parcel.trackingEvents.length ? 'bg-red-600' : 'bg-slate-300'
+                    "
+                  ></div>
+
+                  @if (event.eventId !== 1) {
+                    <div class="mt-2 h-full min-h-12 w-0.5 bg-slate-200"></div>
+                  }
+                </div>
+
+                <div class="flex-1 rounded-2xl border border-slate-100 bg-slate-50 p-5">
+                  <div class="flex flex-col justify-between gap-2 md:flex-row md:items-center">
+                    <p class="font-black text-slate-950">
+                      {{ event.title }}
+                    </p>
+
+                    <span
+                      class="w-fit rounded-full px-3 py-1 text-xs font-black"
+                      [class]="getStatusStyle(event.status)"
+                    >
+                      {{ getStatusLabel(event.status) }}
+                    </span>
+                  </div>
+
+                  <p class="mt-2 text-sm font-semibold text-slate-500">
+                    {{ event.createdAt }} • {{ event.locationName }}
+                  </p>
+
+                  <p class="mt-3 text-sm leading-6 text-slate-600">
+                    {{ event.remarks }}
+                  </p>
+
+                  <p class="mt-2 text-xs font-bold text-slate-400">
+                    Updated by: {{ event.updatedBy }}
+                  </p>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+
+      <aside class="space-y-6">
+        <div class="rounded-4xl border border-slate-200 bg-white p-6 shadow-xl shadow-slate-200">
+          <h3 class="text-xl font-black text-slate-950">Parcel Information</h3>
+
+          <div class="mt-5 space-y-4 text-sm">
+            <div class="flex justify-between gap-4 border-b border-slate-100 pb-3">
+              <span class="font-bold text-slate-500">Weight</span>
+              <span class="font-black text-slate-900">{{ parcel.parcelWeight }} kg</span>
+            </div>
+
+            <div class="flex justify-between gap-4 border-b border-slate-100 pb-3">
+              <span class="font-bold text-slate-500">Size</span>
+              <span class="font-black text-slate-900">{{ parcel.parcelSize }}</span>
+            </div>
+
+            <div class="flex justify-between gap-4 border-b border-slate-100 pb-3">
+              <span class="font-bold text-slate-500">Category</span>
+              <span class="font-black text-slate-900">{{ parcel.parcelCategory }}</span>
+            </div>
+
+            <div class="flex justify-between gap-4">
+              <span class="font-bold text-slate-500">Fee</span>
+              <span class="font-black text-red-600"> RM {{ parcel.deliveryFee.toFixed(2) }} </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="rounded-4xl border border-slate-200 bg-white p-6 shadow-xl shadow-slate-200">
+          <h3 class="text-xl font-black text-slate-950">Sender</h3>
+
+          <div class="mt-4 rounded-2xl bg-slate-50 p-5">
+            <p class="font-black text-slate-950">{{ parcel.senderName }}</p>
+            <p class="mt-1 text-sm font-semibold text-slate-500">
+              {{ parcel.senderPhone }}
+            </p>
+            <p class="mt-3 text-sm leading-6 text-slate-600">
+              {{ parcel.senderAddress }}
+            </p>
+          </div>
+
+          <h3 class="mt-6 text-xl font-black text-slate-950">Receiver</h3>
+
+          <div class="mt-4 rounded-2xl bg-slate-50 p-5">
+            <p class="font-black text-slate-950">{{ parcel.receiverName }}</p>
+            <p class="mt-1 text-sm font-semibold text-slate-500">
+              {{ parcel.receiverPhone }}
+            </p>
+            <p class="mt-3 text-sm leading-6 text-slate-600">
+              {{ parcel.receiverAddress }}
+            </p>
+          </div>
+        </div>
+
+        <div
+          class="rounded-4xl border border-slate-200 bg-slate-950 p-6 text-white shadow-xl shadow-slate-200"
+        >
+          <h3 class="text-xl font-black">Route Summary</h3>
+
+          <div class="mt-5 space-y-4">
+            <div>
+              <p class="text-xs font-bold uppercase tracking-widest text-slate-400">Origin</p>
+              <p class="mt-1 font-black">{{ parcel.originBranch }}</p>
+            </div>
+
+            <div class="h-px bg-white/10"></div>
+
+            <div>
+              <p class="text-xs font-bold uppercase tracking-widest text-slate-400">Destination</p>
+              <p class="mt-1 font-black">{{ parcel.destinationBranch }}</p>
+            </div>
+
+            @if (parcel.assignedDriver) {
+              <div class="h-px bg-white/10"></div>
+
+              <div>
+                <p class="text-xs font-bold uppercase tracking-widest text-slate-400">
+                  Assigned Driver
+                </p>
+                <p class="mt-1 font-black">{{ parcel.assignedDriver }}</p>
+              </div>
+            }
+          </div>
+        </div>
+      </aside>
+    </div>
+  }
+</section>

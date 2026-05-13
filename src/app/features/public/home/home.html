@@ -1,0 +1,102 @@
+<section class="relative overflow-hidden bg-white">
+  <div
+    class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(220,38,38,0.12),transparent_35%),radial-gradient(circle_at_bottom_left,rgba(15,23,42,0.08),transparent_30%)]"
+  ></div>
+
+  <div
+    class="relative mx-auto grid min-h-[calc(100vh-80px)] max-w-7xl items-center gap-12 px-6 py-20 lg:grid-cols-2"
+  >
+    <div>
+      <div
+        class="mb-6 inline-flex rounded-full border border-red-100 bg-red-50 px-4 py-2 text-sm font-bold text-red-700"
+      >
+        Real-time Courier Tracking
+      </div>
+
+      <h1 class="text-5xl font-black tracking-tight text-slate-950 md:text-6xl">
+        Track, manage, and deliver parcels with
+        <span class="text-red-600">ParcelX</span>
+      </h1>
+
+      <p class="mt-6 max-w-xl text-lg leading-8 text-slate-600">
+        ParcelX is a modern courier and logistics management system for customers, staff, admins,
+        and drivers. Track parcels, manage shipments, assign drivers, and monitor delivery progress
+        in one platform.
+      </p>
+
+      <div class="mt-8 flex flex-col gap-4 sm:flex-row">
+        <a
+          routerLink="/track"
+          class="rounded-2xl bg-red-600 px-7 py-4 text-center font-bold text-white shadow-xl shadow-red-200 transition hover:bg-red-700"
+        >
+          Track Your Parcel
+        </a>
+
+        <a
+          routerLink="/login"
+          class="rounded-2xl border border-slate-200 bg-white px-7 py-4 text-center font-bold text-slate-800 shadow-sm transition hover:border-red-200 hover:text-red-600"
+        >
+          Staff Login
+        </a>
+      </div>
+    </div>
+
+    <div class="rounded-4xl border border-slate-200 bg-white p-6 shadow-2xl shadow-slate-200">
+      <div class="rounded-4xl bg-slate-950 p-6 text-white">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm text-slate-400">Tracking No.</p>
+            <p class="mt-1 text-2xl font-black">PXL202605120001</p>
+          </div>
+
+          <span class="rounded-full bg-red-500 px-4 py-2 text-xs font-black">
+            OUT FOR DELIVERY
+          </span>
+        </div>
+
+        <div class="mt-8 space-y-5">
+          <div class="flex gap-4">
+            <div class="mt-1 h-4 w-4 rounded-full bg-red-500"></div>
+            <div>
+              <p class="font-bold">Out for delivery</p>
+              <p class="text-sm text-slate-400">13 May 2026, 9:10 AM</p>
+            </div>
+          </div>
+
+          <div class="flex gap-4">
+            <div class="mt-1 h-4 w-4 rounded-full bg-white"></div>
+            <div>
+              <p class="font-bold">Arrived at Penang Sorting Hub</p>
+              <p class="text-sm text-slate-400">12 May 2026, 8:30 PM</p>
+            </div>
+          </div>
+
+          <div class="flex gap-4">
+            <div class="mt-1 h-4 w-4 rounded-full bg-white"></div>
+            <div>
+              <p class="font-bold">Parcel picked up</p>
+              <p class="text-sm text-slate-400">11 May 2026, 3:15 PM</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-6 grid grid-cols-3 gap-4">
+        <div class="rounded-2xl bg-red-50 p-4">
+          <p class="text-2xl font-black text-red-600">128</p>
+          <p class="text-xs font-bold text-slate-500">Today</p>
+        </div>
+
+        <div class="rounded-2xl bg-slate-100 p-4">
+          <p class="text-2xl font-black text-slate-950">86</p>
+          <p class="text-xs font-bold text-slate-500">Delivered</p>
+        </div>
+
+        <div class="rounded-2xl bg-slate-100 p-4">
+          <p class="text-2xl font-black text-slate-950">14</p>
+          <p class="text-xs font-bold text-slate-500">Drivers</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

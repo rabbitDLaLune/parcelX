@@ -1,0 +1,115 @@
+@if (parcel) {
+  <section class="space-y-6">
+    <div class="flex flex-col justify-between gap-4 print:hidden md:flex-row md:items-center">
+      <div>
+        <a
+          [routerLink]="['/admin/parcels', parcel.parcelId]"
+          class="text-sm font-black text-red-600"
+        >
+          ← Back to Parcel
+        </a>
+
+        <h1 class="mt-3 text-4xl font-black tracking-tight text-slate-950">Shipping Label</h1>
+
+        <p class="mt-2 text-slate-500">Print this label and attach it to the parcel.</p>
+      </div>
+
+      <button
+        type="button"
+        (click)="printLabel()"
+        class="rounded-2xl bg-red-600 px-6 py-4 text-sm font-black text-white shadow-lg shadow-red-200"
+      >
+        Print Label
+      </button>
+    </div>
+
+    <div
+      class="mx-auto max-w-3xl rounded-4xl border-2 border-slate-900 bg-white p-8 shadow-xl print:shadow-none"
+    >
+      <div class="flex items-start justify-between gap-6 border-b-2 border-slate-900 pb-6">
+        <div>
+          <div class="flex items-center gap-3">
+            <div
+              class="flex h-14 w-14 items-center justify-center rounded-2xl bg-red-600 text-xl font-black text-white"
+            >
+              PX
+            </div>
+
+            <div>
+              <p class="text-3xl font-black text-slate-950">ParcelX</p>
+              <p class="text-sm font-bold text-slate-500">Courier Shipping Label</p>
+            </div>
+          </div>
+
+          <p class="mt-6 text-sm font-bold text-slate-500">Tracking Number</p>
+          <p class="mt-1 text-3xl font-black tracking-tight text-slate-950">
+            {{ parcel.trackingNumber }}
+          </p>
+        </div>
+
+        <app-qr-code [value]="parcel.trackingNumber" label="Scan to Track"></app-qr-code>
+      </div>
+
+      <div class="grid gap-6 border-b-2 border-slate-900 py-6 md:grid-cols-2">
+        <div>
+          <p class="text-sm font-black uppercase tracking-widest text-slate-500">Sender</p>
+
+          <p class="mt-3 text-xl font-black text-slate-950">
+            {{ parcel.senderName }}
+          </p>
+
+          <p class="mt-1 font-bold text-slate-600">
+            {{ parcel.senderPhone }}
+          </p>
+
+          <p class="mt-3 leading-7 text-slate-700">
+            {{ parcel.senderAddress }}
+          </p>
+        </div>
+
+        <div>
+          <p class="text-sm font-black uppercase tracking-widest text-slate-500">Receiver</p>
+
+          <p class="mt-3 text-xl font-black text-slate-950">
+            {{ parcel.receiverName }}
+          </p>
+
+          <p class="mt-1 font-bold text-slate-600">
+            {{ parcel.receiverPhone }}
+          </p>
+
+          <p class="mt-3 leading-7 text-slate-700">
+            {{ parcel.receiverAddress }}
+          </p>
+        </div>
+      </div>
+
+      <div class="grid gap-4 pt-6 md:grid-cols-4">
+        <div class="rounded-2xl bg-slate-100 p-4">
+          <p class="text-xs font-bold text-slate-500">Weight</p>
+          <p class="mt-1 text-lg font-black">{{ parcel.parcelWeight }} kg</p>
+        </div>
+
+        <div class="rounded-2xl bg-slate-100 p-4">
+          <p class="text-xs font-bold text-slate-500">Size</p>
+          <p class="mt-1 text-lg font-black">{{ parcel.parcelSize }}</p>
+        </div>
+
+        <div class="rounded-2xl bg-slate-100 p-4">
+          <p class="text-xs font-bold text-slate-500">Type</p>
+          <p class="mt-1 text-lg font-black">{{ parcel.deliveryType }}</p>
+        </div>
+
+        <div class="rounded-2xl bg-red-50 p-4">
+          <p class="text-xs font-bold text-slate-500">Fee</p>
+          <p class="mt-1 text-lg font-black text-red-600">RM {{ parcel.deliveryFee.toFixed(2) }}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+} @else {
+  <section class="rounded-4xl border border-red-200 bg-red-50 p-10 text-center">
+    <h1 class="text-3xl font-black text-red-700">Label Not Found</h1>
+    <p class="mt-3 font-semibold text-red-600">The parcel label could not be generated.</p>
+  </section>
+}
