@@ -73,13 +73,23 @@ export class AuthService {
       return;
     }
 
-    if (user.role === 'admin' || user.role === 'staff') {
+    if (user.role === 'admin') {
       this.router.navigate(['/admin/dashboard']);
+      return;
+    }
+
+    if (user.role === 'staff') {
+      this.router.navigate(['/staff/dashboard']);
       return;
     }
 
     if (user.role === 'driver') {
       this.router.navigate(['/driver/dashboard']);
+      return;
+    }
+
+    if (user.role === 'customer') {
+      this.router.navigate(['/customer/dashboard']);
       return;
     }
 

@@ -13,12 +13,17 @@ import { requireAuth, requireRole } from '../middleware/auth.middleware';
 
 const router = Router();
 
-router.get('/', requireAuth, requireRole(['admin', 'staff']), getAllParcels);
+router.get('/', requireAuth, requireRole(['admin', 'staff', 'customer']), getAllParcels);
 router.get('/dashboard/stats', requireAuth, requireRole(['admin', 'staff']), getDashboardStats);
 
-router.post('/', requireAuth, requireRole(['admin', 'staff']), createParcel);
+router.post('/', requireAuth, requireRole(['admin', 'staff', 'customer']), createParcel);
 
-router.get('/:id', requireAuth, requireRole(['admin', 'staff', 'driver']), getParcelById);
+router.get(
+  '/:id',
+  requireAuth,
+  requireRole(['admin', 'staff', 'driver', 'customer']),
+  getParcelById,
+);
 
 router.post('/:id/status', requireAuth, requireRole(['admin', 'staff']), updateParcelStatus);
 

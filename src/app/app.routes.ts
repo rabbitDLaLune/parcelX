@@ -30,6 +30,17 @@ import { ParcelLabel } from './features/admin/parcel-label/parcel-label';
 import { authGuard } from './core/guards/auth.guard';
 import { roleGuard } from './core/guards/role.guard';
 
+import { Dashboard as CustomerDashboard } from './features/customer/dashboard/dashboard';
+import { CreateShipment } from './features/customer/create-shipment/create-shipment';
+import { ShipmentHistory } from './features/customer/shipment-history/shipment-history';
+import { ShipmentDetails } from './features/customer/shipment-details/shipment-details';
+
+import { StaffLayout } from './layouts/staff-layout/staff-layout';
+import { Dashboard as StaffDashboard } from './features/staff/dashboard/dashboard';
+import { ScanParcel } from './features/staff/scan-parcel/scan-parcel';
+import { UpdateMovement } from './features/staff/update-movement/update-movement';
+import { RegisterParcel } from './features/staff/register-parcel/register-parcel';
+
 export const routes: Routes = [
   {
     path: '',
@@ -108,10 +119,28 @@ export const routes: Routes = [
   {
     path: 'customer',
     component: CustomerLayout,
+    canActivate: [authGuard, roleGuard(['customer'])],
     children: [
       {
+        path: '',
+        redirectTo: 'dashboard',
+        pathMatch: 'full',
+      },
+      {
         path: 'dashboard',
-        component: Home,
+        component: CustomerDashboard,
+      },
+      {
+        path: 'create-shipment',
+        component: CreateShipment,
+      },
+      {
+        path: 'shipments',
+        component: ShipmentHistory,
+      },
+      {
+        path: 'shipments/:id',
+        component: ShipmentDetails,
       },
     ],
   },
@@ -136,6 +165,34 @@ export const routes: Routes = [
       {
         path: 'parcels/:id',
         component: DeliveryDetails,
+      },
+    ],
+  },
+  {
+    path: 'staff',
+    component: StaffLayout,
+    canActivate: [authGuard, roleGuard(['staff'])],
+    children: [
+      {
+        path: '',
+        redirectTo: 'dashboard',
+        pathMatch: 'full',
+      },
+      {
+        path: 'dashboard',
+        component: StaffDashboard,
+      },
+      {
+        path: 'scan',
+        component: ScanParcel,
+      },
+      {
+        path: 'update-movement',
+        component: UpdateMovement,
+      },
+      {
+        path: 'register-parcel',
+        component: RegisterParcel,
       },
     ],
   },

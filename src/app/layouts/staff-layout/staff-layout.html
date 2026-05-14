@@ -12,37 +12,44 @@
 
         <div>
           <p class="text-xl font-black text-slate-950">ParcelX</p>
-          <p class="text-xs font-bold text-slate-400">Customer Portal</p>
+          <p class="text-xs font-bold text-slate-400">Staff Panel</p>
         </div>
       </div>
 
       <nav class="mt-10 space-y-2">
         <a
-          routerLink="/customer/dashboard"
+          routerLink="/staff/dashboard"
           class="flex items-center rounded-2xl bg-red-600 px-4 py-3 font-bold text-white shadow-lg shadow-red-100"
         >
           Dashboard
         </a>
 
         <a
-          routerLink="/customer/create-shipment"
+          routerLink="/staff/scan"
           class="flex items-center rounded-2xl px-4 py-3 font-bold text-slate-600 transition hover:bg-red-50 hover:text-red-600"
         >
-          Create Shipment
+          Scan Parcel
         </a>
 
         <a
-          routerLink="/customer/shipments"
+          routerLink="/staff/update-movement"
           class="flex items-center rounded-2xl px-4 py-3 font-bold text-slate-600 transition hover:bg-red-50 hover:text-red-600"
         >
-          Shipment History
+          Update Movement
         </a>
 
         <a
-          routerLink="/track"
+          routerLink="/staff/register-parcel"
           class="flex items-center rounded-2xl px-4 py-3 font-bold text-slate-600 transition hover:bg-red-50 hover:text-red-600"
         >
-          Public Tracking
+          Register Parcel
+        </a>
+
+        <a
+          routerLink="/admin/parcels"
+          class="flex items-center rounded-2xl px-4 py-3 font-bold text-slate-600 transition hover:bg-red-50 hover:text-red-600"
+        >
+          Parcel List
         </a>
 
         <button
@@ -55,8 +62,8 @@
       </nav>
 
       <div class="absolute bottom-5 left-5 right-5 rounded-2xl bg-slate-950 p-5 text-white">
-        <p class="font-black">Customer Access</p>
-        <p class="mt-1 text-sm text-slate-400">Create shipments and track delivery progress.</p>
+        <p class="font-black">Staff Operations</p>
+        <p class="mt-1 text-sm text-slate-400">Scan parcels and update hub movements.</p>
       </div>
     </aside>
 
