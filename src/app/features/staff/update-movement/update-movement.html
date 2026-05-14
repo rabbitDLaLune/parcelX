@@ -1,0 +1,165 @@
+<section class="space-y-6">
+  <div>
+    <p class="text-sm font-black uppercase tracking-[0.25em] text-red-600">Movement Update</p>
+
+    <h1 class="mt-2 text-4xl font-black tracking-tight text-slate-950">Update Parcel Movement</h1>
+
+    <p class="mt-2 text-slate-500">
+      Add a new tracking event and update the parcel’s current status.
+    </p>
+  </div>
+
+  <div class="grid gap-6 xl:grid-cols-[1fr_380px]">
+    <div class="space-y-6">
+      <div class="rounded-4xl border border-slate-200 bg-white p-5 shadow-sm">
+        <label class="text-sm font-bold text-slate-700">Tracking Number</label>
+
+        <div class="mt-2 grid gap-4 md:grid-cols-[1fr_180px]">
+          <input
+            [(ngModel)]="trackingNumber"
+            (keyup.enter)="searchParcel()"
+            class="h-14 rounded-2xl border border-slate-200 bg-slate-50 px-5 font-semibold uppercase outline-none transition focus:border-red-400 focus:bg-white"
+            placeholder="Enter tracking number"
+          />
+
+          <button
+            type="button"
+            (click)="searchParcel()"
+            class="h-14 rounded-2xl bg-slate-950 font-black text-white"
+          >
+            {{ isSearching ? 'Searching...' : 'Search' }}
+          </button>
+        </div>
+      </div>
+
+      @if (parcel) {
+        <div class="rounded-4xl border border-slate-200 bg-white p-6 shadow-sm">
+          <div class="flex flex-col justify-between gap-4 md:flex-row md:items-center">
+            <div>
+              <p class="text-sm font-bold text-slate-500">Selected Parcel</p>
+              <h2 class="mt-1 text-3xl font-black text-slate-950">
+                {{ parcel.trackingNumber }}
+              </h2>
+            </div>
+
+            <span
+              class="w-fit rounded-full px-4 py-2 text-xs font-black"
+              [class]="getStatusStyle(parcel.currentStatus)"
+            >
+              {{ getStatusLabel(parcel.currentStatus) }}
+            </span>
+          </div>
+
+          <div class="mt-6 rounded-2xl bg-slate-50 p-5">
+            <p class="text-sm font-bold text-slate-500">Current Location</p>
+            <p class="mt-2 font-black text-slate-950">{{ parcel.latestLocation }}</p>
+          </div>
+        </div>
+      }
+
+      <form class="rounded-4xl border border-slate-200 bg-white p-6 shadow-sm">
+        <h2 class="text-2xl font-black text-slate-950">New Movement Event</h2>
+
+        <div class="mt-6 grid gap-5 md:grid-cols-2">
+          <div>
+            <label class="text-sm font-bold text-slate-700">New Status</label>
+            <select
+              [(ngModel)]="status"
+              name="status"
+              class="mt-2 h-14 w-full rounded-2xl border border-slate-200 bg-slate-50 px-5 font-semibold outline-none focus:border-red-400 focus:bg-white"
+            >
+              @for (item of statuses; track item.value) {
+                <option [ngValue]="item.value">{{ item.label }}</option>
+              }
+            </select>
+          </div>
+
+          <div>
+            <label class="text-sm font-bold text-slate-700">Branch / Hub</label>
+            <select
+              [(ngModel)]="branchId"
+              name="branchId"
+              class="mt-2 h-14 w-full rounded-2xl border border-slate-200 bg-slate-50 px-5 font-semibold outline-none focus:border-red-400 focus:bg-white"
+            >
+              <option [ngValue]="1">PNG-HUB-01 - Penang Sorting Hub</option>
+              <option [ngValue]="2">PNG-BR-02 - Georgetown Branch</option>
+              <option [ngValue]="3">KL-HUB-01 - Kuala Lumpur Main Hub</option>
+              <option [ngValue]="4">JHR-HUB-01 - Johor Bahru Hub</option>
+            </select>
+          </div>
+
+          <div class="md:col-span-2">
+            <label class="text-sm font-bold text-slate-700">Location Name</label>
+            <input
+              [(ngModel)]="locationName"
+              name="locationName"
+              class="mt-2 h-14 w-full rounded-2xl border border-slate-200 bg-slate-50 px-5 font-semibold outline-none focus:border-red-400 focus:bg-white"
+              placeholder="Example: Penang Sorting Hub"
+            />
+          </div>
+
+          <div class="md:col-span-2">
+            <label class="text-sm font-bold text-slate-700">Remarks</label>
+            <textarea
+              [(ngModel)]="remarks"
+              name="remarks"
+              rows="4"
+              class="mt-2 w-full rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4 font-semibold outline-none focus:border-red-400 focus:bg-white"
+              placeholder="Movement remarks"
+            ></textarea>
+          </div>
+        </div>
+
+        @if (successMessage) {
+          <div
+            class="mt-6 rounded-2xl border border-emerald-200 bg-emerald-50 p-5 font-bold text-emerald-700"
+          >
+            {{ successMessage }}
+          </div>
+        }
+
+        @if (errorMessage) {
+          <div class="mt-6 rounded-2xl border border-red-200 bg-red-50 p-5 font-bold text-red-700">
+            {{ errorMessage }}
+          </div>
+        }
+
+        <button
+          type="button"
+          (click)="updateMovement()"
+          [disabled]="isSubmitting"
+          class="mt-6 h-14 rounded-2xl bg-red-600 px-8 font-black text-white shadow-lg shadow-red-200 disabled:cursor-not-allowed disabled:opacity-60"
+        >
+          {{ isSubmitting ? 'Updating...' : 'Update Movement' }}
+        </button>
+      </form>
+    </div>
+
+    <aside class="rounded-4xl border border-slate-200 bg-slate-950 p-6 text-white shadow-sm">
+      <h2 class="text-2xl font-black">Staff Guide</h2>
+
+      <div class="mt-6 space-y-5">
+        <div class="rounded-2xl bg-white/10 p-5">
+          <p class="font-black">1. Scan or search parcel</p>
+          <p class="mt-2 text-sm leading-6 text-slate-400">
+            Enter the tracking number printed on the parcel label.
+          </p>
+        </div>
+
+        <div class="rounded-2xl bg-white/10 p-5">
+          <p class="font-black">2. Select movement status</p>
+          <p class="mt-2 text-sm leading-6 text-slate-400">
+            Choose the correct hub movement such as In Transit or Arrived at Destination Hub.
+          </p>
+        </div>
+
+        <div class="rounded-2xl bg-white/10 p-5">
+          <p class="font-black">3. Save event</p>
+          <p class="mt-2 text-sm leading-6 text-slate-400">
+            The system updates parcel status and adds a tracking timeline event.
+          </p>
+        </div>
+      </div>
+    </aside>
+  </div>
+</section>

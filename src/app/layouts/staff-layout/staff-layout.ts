@@ -3,11 +3,11 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 
 @Component({
-  selector: 'app-customer-layout',
+  selector: 'app-staff-layout',
   imports: [RouterOutlet, RouterLink],
-  templateUrl: './customer-layout.html',
+  templateUrl: './staff-layout.html',
 })
-export class CustomerLayout {
+export class StaffLayout {
   constructor(public authService: AuthService) {}
 
   logout(): void {

@@ -1,0 +1,102 @@
+<section class="space-y-6">
+  <div>
+    <p class="text-sm font-black uppercase tracking-[0.25em] text-red-600">Parcel Scanner</p>
+
+    <h1 class="mt-2 text-4xl font-black tracking-tight text-slate-950">Scan or Search Parcel</h1>
+
+    <p class="mt-2 text-slate-500">
+      Enter a tracking number to check parcel details before updating movement.
+    </p>
+  </div>
+
+  <div class="rounded-4xl border border-slate-200 bg-white p-5 shadow-sm">
+    <div class="grid gap-4 md:grid-cols-[1fr_180px]">
+      <input
+        [(ngModel)]="trackingNumber"
+        (keyup.enter)="searchParcel()"
+        class="h-14 rounded-2xl border border-slate-200 bg-slate-50 px-5 font-semibold uppercase outline-none transition focus:border-red-400 focus:bg-white"
+        placeholder="Enter tracking number"
+      />
+
+      <button
+        type="button"
+        (click)="searchParcel()"
+        class="h-14 rounded-2xl bg-red-600 font-black text-white shadow-lg shadow-red-200 transition hover:bg-red-700"
+      >
+        {{ isLoading ? 'Searching...' : 'Search' }}
+      </button>
+    </div>
+
+    <div class="mt-4 rounded-2xl bg-slate-50 p-4 text-sm font-semibold text-slate-500">
+      QR/barcode scanner hardware can input the tracking number into this field.
+    </div>
+  </div>
+
+  @if (errorMessage) {
+    <div class="rounded-2xl border border-red-200 bg-red-50 p-5 font-bold text-red-700">
+      {{ errorMessage }}
+    </div>
+  }
+
+  @if (parcel) {
+    <div class="grid gap-6 xl:grid-cols-[1fr_360px]">
+      <div class="rounded-4xl border border-slate-200 bg-white p-6 shadow-sm">
+        <div class="flex flex-col justify-between gap-4 md:flex-row md:items-center">
+          <div>
+            <p class="text-sm font-bold text-slate-500">Tracking Number</p>
+            <h2 class="mt-1 text-3xl font-black text-slate-950">
+              {{ parcel.trackingNumber }}
+            </h2>
+          </div>
+
+          <span
+            class="w-fit rounded-full px-4 py-2 text-xs font-black"
+            [class]="getStatusStyle(parcel.currentStatus)"
+          >
+            {{ getStatusLabel(parcel.currentStatus) }}
+          </span>
+        </div>
+
+        <div class="mt-6 grid gap-4 md:grid-cols-3">
+          <div class="rounded-2xl bg-slate-50 p-5">
+            <p class="text-sm font-bold text-slate-500">Latest Location</p>
+            <p class="mt-2 font-black text-slate-950">{{ parcel.latestLocation }}</p>
+          </div>
+
+          <div class="rounded-2xl bg-slate-50 p-5">
+            <p class="text-sm font-bold text-slate-500">Receiver</p>
+            <p class="mt-2 font-black text-slate-950">{{ parcel.receiverName }}</p>
+          </div>
+
+          <div class="rounded-2xl bg-slate-50 p-5">
+            <p class="text-sm font-bold text-slate-500">Delivery Type</p>
+            <p class="mt-2 font-black text-slate-950">{{ parcel.deliveryType }}</p>
+          </div>
+        </div>
+
+        <div class="mt-6 rounded-2xl bg-slate-50 p-5">
+          <p class="text-sm font-bold text-slate-500">Receiver Address</p>
+          <p class="mt-2 leading-7 text-slate-700">
+            {{ parcel.receiverAddress }}
+          </p>
+        </div>
+      </div>
+
+      <aside class="space-y-4">
+        <a
+          routerLink="/staff/update-movement"
+          class="flex h-14 items-center justify-center rounded-2xl bg-red-600 px-6 font-black text-white shadow-lg shadow-red-200"
+        >
+          Update Movement
+        </a>
+
+        <a
+          [routerLink]="['/admin/parcels', parcel.parcelId]"
+          class="flex h-14 items-center justify-center rounded-2xl border border-slate-200 bg-white px-6 font-black text-slate-700"
+        >
+          View Full Details
+        </a>
+      </aside>
+    </div>
+  }
+</section>
